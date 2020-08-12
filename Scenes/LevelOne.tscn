@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/Paddle.gd" type="Script" id=1]
+[ext_resource path="res://Instances/Ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Textures/paddle.png" type="Texture" id=3]
+[ext_resource path="res://Instances/Brick.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Game.gd" type="Script" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 40, 4 )
+
+[node name="World" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="Paddle" type="KinematicBody2D" parent="."]
+position = Vector2( 320, 320 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Paddle"]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+
+[node name="Collision" type="CollisionShape2D" parent="Paddle"]
+shape = SubResource( 1 )
+
+[node name="Anchor" type="Position2D" parent="Paddle"]
+position = Vector2( 0, 32 )
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Collision" type="CollisionPolygon2D" parent="Walls"]
+polygon = PoolVector2Array( 0, 416, 0, 0, 640, 0, 640, 416, 704, 416, 704, -64, -64, -64, -64, 416, 0, 416 )
+
+[node name="Bricks" type="Node2D" parent="."]
+
+[node name="Brick" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 320, 80 )
+
+[node name="Brick2" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 384, 112 )
+
+[node name="Brick3" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 320, 112 )
+
+[node name="Brick4" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 256, 112 )
+
+[node name="Brick5" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 192, 112 )
+
+[node name="Brick6" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 448, 80 )
+
+[node name="Brick7" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 192, 80 )
+
+[node name="Brick8" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 256, 80 )
+
+[node name="Brick9" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 384, 80 )
+
+[node name="Brick10" parent="Bricks" instance=ExtResource( 4 )]
+position = Vector2( 448, 112 )
+
+[node name="Ball" parent="." instance=ExtResource( 2 )]
+SPEEDUP = 8
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Ball"]
+[connection signal="screen_exited" from="Ball/VisibilityNotifier2D" to="." method="_on_ball_leaves_screen"]

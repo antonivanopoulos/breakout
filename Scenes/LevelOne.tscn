@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Paddle.gd" type="Script" id=1]
 [ext_resource path="res://Instances/Ball.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Instances/Brick.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/BallTrail.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/PauseScreen.tscn" type="PackedScene" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 40, 4 )
@@ -72,6 +73,7 @@ position = Vector2( 448, 112 )
 
 [node name="Ball" parent="." instance=ExtResource( 2 )]
 position = Vector2( 320, 264 )
+SPEEDUP = 6
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Ball"]
 
@@ -81,4 +83,12 @@ width_curve = SubResource( 2 )
 default_color = Color( 1, 1, 1, 1 )
 gradient = SubResource( 3 )
 script = ExtResource( 6 )
+
+[node name="PausePopup" type="Popup" parent="."]
+pause_mode = 2
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="PauseScreen" parent="PausePopup" instance=ExtResource( 7 )]
 [connection signal="screen_exited" from="Ball/VisibilityNotifier2D" to="." method="_on_ball_leaves_screen"]
+[connection signal="resume_signal" from="PausePopup/PauseScreen" to="." method="resume_game"]
